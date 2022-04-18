@@ -1,0 +1,154 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+#include "block_define.h"
+#include <wchar.h>
+#include <locale.h>
+
+#define SCREEN_WIDTH 156
+#define SCREEN_HEIGHT 60
+
+char * image[60] = {
+"                                                                                                                                                            ",
+"                                     XXXXXX                                                                                                                 ",
+"                                  XXXXXXXXXXXX                                                                                                              ",
+"                                XXXXXXXXXXXXXXXX                                                                                                            ",
+"                               XXXXXXXXXXXXXXXXXX                                                                                                           ",
+"                             XXXXXXXXXXXXXXXXXXXXXX                                                                                                         ",
+"                            XXXXXXXXXXXXXXXXXXXXXXXX                                                                                                        ",
+"                           XXXXXXXXXXXXXXXXXXXXXXXXXX                                                                                                       ",
+"                          XXXXXXXXXXXXXXXXXXXXXXXXXXX                                                                                                       ",
+"                         XXXXXXXXXXX        XXXXXXXXXX                                                                                                      ",
+"                         XXXXXXXXX            XXXXXXXXX                                                                                                     ",
+"                        XXXXXXXX               XXXXXXXX                                                                                                     ",
+"                       XXXXXXXX                  XXXXXXX                                                                                                    ",
+"                       XXXXXXX                   XXXXXXXXXXXXXXXX                                                                                           ",
+"                       XXXXXXX                    XXXXXXXXXXXXXXXXX                                                                                         ",
+"                       XXXXXX                      XXXXXXXXXXXXXXXXXX                                                                                       ",
+"                      XXXXXXX                      XXXXXXXXXXXXXXXXXXX                                                                                      ",
+"                      XXXXXX                        XXXXXXXXXXXXXXXXXXX                                                                                     ",
+"                      XXXXXX                        XXXXXXXXXXXXXXXXXXXX                                                                                    ",
+"                      XXXXXX                        XXXXXXXXXXXXXXXXXXXXX                                                                                   ",
+"                      XXXXXX                        XXXX         XXXXXXXX                                                                                   ",
+"                 XXXXXXXXXXX                                      XXXXXXXX                                                                                  ",
+"                XXXXXXXXXXXX                                       XXXXXXX                                                                                  ",
+"              XXXXXXXXXXXXXX                                        XXXXXXX                                                                                 ",
+"             XXXXXXXXXXXXXXX                                         XXXXXX                                                                                 ",
+"            XXXXXXXXXXXXXXXX                                         XXXXXXX                                                                                ",
+"           XXXXXXXXXXXXXXXXX                                         XXXXXXX                                                                                ",
+"          XXXXXXXXXXX                                                 XXXXXX                                                                                ",
+"         XXXXXXXXX                                                                                                                                          ",
+"         XXXXXXXX                                                                                                                                           ",
+"        XXXXXXXX                                                                                                                                            ",
+"       XXXXXXXX                     XXXXXXXXXXXX        XXXXX          XXXXX       XXXX                XXXX   XXXXXXXXXXX                   XXXXXX          ",
+"       XXXXXXX                     XXXXXXXXXXXXXXX     XXXXXXX        XXXXXXX      XXXX                XXXX   XXXXXXXXXXXXXX             XXXXXXXXXXX        ",
+"       XXXXXXX                     XXXXXXXXXXXXXXXXX   XXXXXXX        XXXXXXX      XXXX                XXXX   XXXXXXXXXXXXXXXX          XXXXXXXXXXXXXX      ",
+"       XXXXXXX                     XXXXXXXXXXXXXXXXXX  XXXXXXX        XXXXXXX       XXXX              XXXX    XXXXXXXXXXXXXXXXX        XXXXX       XXXX     ",
+"       XXXXXX                      XXXXXXXXXXXXXXXXXXX XXXXXXX        XXXXXXX       XXXX              XXXX    XXXX        XXXXXX      XXXXX         XXXX    ",
+"       XXXXXX                      XXXXXXXXXXXXXXXXXXX XXXXXXX        XXXXXXX       XXXX              XXXX    XXXX          XXXXX     XXXX                  ",
+"       XXXXXX                      XXXXXX      XXXXXXX XXXXXXX        XXXXXXX        XXXX            XXXX     XXXX           XXXXX    XXXX                  ",
+"       XXXXXX                      XXXXXX       XXXXXX XXXXXXX        XXXXXXX        XXXX            XXXX     XXXX            XXXX    XXXXX                 ",
+"       XXXXXX                      XXXXXX       XXXXXX XXXXXXX        XXXXXXX         XXXX          XXXX      XXXX            XXXXX    XXXXX                ",
+"       XXXXXX                      XXXXXX       XXXXXX XXXXXXX        XXXXXXX         XXXX          XXXX      XXXX            XXXXX     XXXXX               ",
+"       XXXXXX                      XXXXXX       XXXXXX XXXXXXX        XXXXXXX          XXXX        XXXX       XXXX             XXXX      XXXXX              ",
+"       XXXXXX                      XXXXXX       XXXXXX XXXXXXX        XXXXXXX          XXXX        XXXX       XXXX             XXXXX      XXXXX             ",
+"       XXXXXX                      XXXXXX      XXXXXXX XXXXXXX        XXXXXXX           XXXX       XXXX       XXXX             XXXXX       XXXXX            ",
+"       XXXXXXX                     XXXXXXXXXXXXXXXXXXX XXXXXXX        XXXXXXX           XXXX      XXXX        XXXX             XXXXX        XXXXX           ",
+"       XXXXXXX                     XXXXXXXXXXXXXXXXXXX XXXXXXX        XXXXXXX            XXXX     XXXX        XXXX             XXXXX         XXXXX          ",
+"       XXXXXXXX                    XXXXXXXXXXXXXXXXXX  XXXXXXX        XXXXXXX            XXXXX   XXXXX        XXXX             XXXXX          XXXXX         ",
+"        XXXXXXX                    XXXXXXXXXXXXXXXX    XXXXXXX        XXXXXXX             XXXX   XXXX         XXXX             XXXXX           XXXXX        ",
+"        XXXXXXXX                   XXXXXX XXXXXXXX     XXXXXXX        XXXXXXX             XXXX   XXXX         XXXX             XXXX             XXXXX       ",
+"         XXXXXXXX                  XXXXXX XXXXXXXX     XXXXXXX        XXXXXXX             XXXXX XXXXX         XXXX            XXXXX              XXXXX     ",
+"         XXXXXXXXXX                XXXXXX  XXXXXXXX    XXXXXXX        XXXXXX               XXXX XXXX          XXXX            XXXXX               XXXXX     ",
+"          XXXXXXXXXX               XXXXXX   XXXXXXXX   XXXXXXX        XXXXXX               XXXXXXXXX          XXXX            XXXX                 XXXXX    ",
+"           XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX    XXXXXXXX   XXXXXXX      XXXXXXX               XXXXXXXX           XXXX           XXXX                  XXXXX    ",
+"            XXXXXXXXXXXXXXXXXXXXXXXXXXXXX     XXXXXXXX  XXXXXXXXXXXXXXXXXXX                 XXXXXXX           XXXX         XXXXXX    XXXX          XXXXX    ",
+"              XXXXXXXXXXXXXXXXXXXXXXXXXXX      XXXXXXX   XXXXXXXXXXXXXXXXXX                 XXXXXXX           XXXXXXXXXXXXXXXXXX     XXXX        XXXXXX     ",
+"               XXXXXXXXXXXXXXXXXXXXXXXXXX      XXXXXXXX   XXXXXXXXXXXXXXXX                   XXXXX            XXXXXXXXXXXXXXXXX       XXXXXXXXXXXXXXXX      ",
+"                 XXXXXXXXXXXXXXXXXXXXXXXX       XXXXXXXX   XXXXXXXXXXXXXX                    XXXXX            XXXXXXXXXXXXXXX          XXXXXXXXXXXXX        ",
+"                   XXXXXXXXXXXXXXXXXXXXXX        XXXXXXX     XXXXXXXXXX                       XXX             XXXXXXXXXXXXX             XXXXXXXXXX          ",
+"                                                                                                                                                            ",
+"                                                                                                                                                            ",
+
+};
+
+void print_image(char ** image) {
+		int i, j;
+	for (i = 0; i < SCREEN_HEIGHT; i+=2) {
+		for (j =0; j < SCREEN_WIDTH; j+=2) {
+			if ((image[i][j]   == 'X') && (image[i][j+1]   == ' ') && \
+				(image[i+1][j] == ' ') && (image[i+1][j+1] == ' ')){
+				printf("%lc", TOP_LEFT_POINT);
+			}
+			
+			if ((image[i][j]   == ' ') && (image[i][j+1]   == 'X') && \
+				(image[i+1][j] == ' ') && (image[i+1][j+1] == ' ')){
+				printf("%lc", TOP_RIGHT_POINT);
+			}
+			if ((image[i][j]   == 'X') && (image[i][j+1]   == 'X') && \
+				(image[i+1][j] == ' ') && (image[i+1][j+1] == ' ')){
+				printf("%lc", UP_HALF_OF_BLOK);
+			}
+			if ((image[i][j]   == ' ') && (image[i][j+1]   == ' ') && \
+				(image[i+1][j] == ' ') && (image[i+1][j+1] == 'X')){
+				printf("%lc", BOT_RIGHT_POINT);
+			}
+			if ((image[i][j]   == 'X') && (image[i][j+1]   == ' ') && \
+				(image[i+1][j] == ' ') && (image[i+1][j+1] == 'X')){
+				printf("%lc", DIAGONAL_FLTR);
+			}
+			if ((image[i][j]   == ' ') && (image[i][j+1]   == 'X') && \
+				(image[i+1][j] == ' ') && (image[i+1][j+1] == 'X')){
+				printf("%lc", VERT_RIGHT);
+			}
+			if ((image[i][j]   == 'X') && (image[i][j+1]   == 'X') && \
+				(image[i+1][j] == ' ') && (image[i+1][j+1] == 'X')){
+				printf("%lc", BOT_LEFT_POINT_B);
+			}
+			if ((image[i][j]   == ' ') && (image[i][j+1]   == ' ') && \
+				(image[i+1][j] == 'X') && (image[i+1][j+1] == ' ')){
+				printf("%lc", BOT_LEFT_POINT);
+			}
+			if ((image[i][j]   == 'X') && (image[i][j+1]   == ' ') && \
+				(image[i+1][j] == 'X') && (image[i+1][j+1] == ' ')){
+				printf("%lc", VERT_LEFT);
+			}
+			if ((image[i][j]   == ' ') && (image[i][j+1]   == 'X') && \
+				(image[i+1][j] == 'X') && (image[i+1][j+1] == ' ')){
+				printf("%lc", DIAGONAL_FRTL);
+			}
+			if ((image[i][j]   == 'X') && (image[i][j+1]   == 'X') && \
+				(image[i+1][j] == 'X') && (image[i+1][j+1] == ' ')){
+				printf("%lc", BOT_RIGHT_POINT_B);
+			}
+
+			if ((image[i][j]   == ' ') && (image[i][j+1]   == ' ') && \
+				(image[i+1][j] == 'X') && (image[i+1][j+1] == 'X')){
+				printf("%lc", DOWN_HALF_OF_BLOK);
+			}
+			if ((image[i][j]   == 'X') && (image[i][j+1]   == ' ') && \
+				(image[i+1][j] == 'X') && (image[i+1][j+1] == 'X')){
+				printf("%lc", TOP_RIGHT_POINT_B);
+			}
+			if ((image[i][j]   == ' ') && (image[i][j+1]   == 'X') && \
+				(image[i+1][j] == 'X') && (image[i+1][j+1] == 'X')){
+				printf("%lc", TOP_LEFT_POINT_B);
+			}
+			if ((image[i][j]   == 'X') && (image[i][j+1]   == 'X') && \
+				(image[i+1][j] == 'X') && (image[i+1][j+1] == 'X')){
+				printf("%lc", FULL_BLOCK);
+			}
+			if ((image[i][j]   == ' ') && (image[i][j+1]   == ' ') && \
+				(image[i+1][j] == ' ') && (image[i+1][j+1] == ' ')){
+				putchar(' ');
+			}
+		}
+		putchar('\n');
+	}
+}
+
+int main (void) {
+	setlocale(LC_ALL, "en_US.utf8");
+	print_image(image);
+	return 0;
+}
