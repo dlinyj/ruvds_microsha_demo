@@ -4,6 +4,8 @@
 #include "block_define.h"
 #include <wchar.h>
 #include <locale.h>
+#include <string.h>
+
 
 #define SCREEN_WIDTH 156
 #define SCREEN_HEIGHT 60
@@ -149,6 +151,32 @@ void print_image(char ** image) {
 
 int main (void) {
 	setlocale(LC_ALL, "en_US.utf8");
-	print_image(image);
+	//print_image(image);
+	char* f1[SCREEN_HEIGHT];
+	//char* f2[SCREEN_HEIGHT];
+	int i;
+
+	for (i = 0; i < SCREEN_HEIGHT; ++i) {
+		f1[i] = malloc(SCREEN_WIDTH + 1);
+		memset(f1[i], ' ',SCREEN_WIDTH);
+		f1[i][SCREEN_WIDTH + 1] = '\0';
+		//f2[i] = malloc(SCREEN_WIDTH + 1);
+	}
+
+	//Горизонтальная линия
+	for (i = 0; i < SCREEN_WIDTH; ++i) {
+		f1[SCREEN_HEIGHT/2][i] = 'X';
+	}
+	//Вертикальная линия
+	for (i = 0; i < SCREEN_HEIGHT; ++i) {
+		f1[i][SCREEN_WIDTH/2] = 'X';
+	}
+
+	print_image(f1);
+
+	for (i = 0; i < SCREEN_HEIGHT; ++i) {
+		free(f1[i]);
+//		free(f2[i]);
+	}
 	return 0;
 }
