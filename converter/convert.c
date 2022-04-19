@@ -5,7 +5,16 @@
 #include <wchar.h>
 #include <locale.h>
 #include <string.h>
+#include <unistd.h>
+#include <math.h>
 
+
+#define ESC "\033"
+#define home() 			printf(ESC "[H") //Move cursor to the indicated row, column (origin at 1,1)
+#define clrscr()		printf(ESC "[2J") //lear the screen, move to (1,1)
+#define gotoxy(x,y)		printf(ESC "[%d;%dH", y, x);
+
+#define visible_cursor() printf(ESC "[?251");
 
 #define SCREEN_WIDTH 156
 #define SCREEN_HEIGHT 60
@@ -149,6 +158,41 @@ void print_image(char ** image) {
 	}
 }
 
+void line (char ** canvas, double degree_axix_of_rotation) {
+	double k = tan((180.0 - degree_axix_of_rotation) * M_PI / 180.0);
+	#define Y1 (SCREEN_HEIGHT/2)
+	#define X1 (SCREEN_WIDTH/2)
+	//printf("k = %f\n",k);
+
+	
+	if ((degree_axix_of_rotation > 45.0)  && (degree_axix_of_rotation < 135.0)) {
+		for (int y = 0; y < SCREEN_HEIGHT; y++) {
+			int x = (int)((y - Y1)/k + X1 + 0.5);
+//			printf("x = %d, y = %d\n", x,y);
+			if ((x >= 0) && (x <= SCREEN_WIDTH)) {
+				canvas[y][x] = 'X';
+			}
+		}
+	}
+	 
+	if ((degree_axix_of_rotation <= 45.0) || (degree_axix_of_rotation >= 135.0)){
+		for (int x = 0; x < SCREEN_WIDTH; x++) {
+			int y = (int)(k * (x - X1) + Y1 + 0.5);
+			if ((y >= 0) && (y <= SCREEN_HEIGHT)) {
+				canvas[y][x] = 'X';
+			}
+//			printf("x = %d, y = %d\n", x,y);
+		}
+	} 
+}
+
+void clear_canvas(char ** canvas) {
+	for (int i = 0; i < SCREEN_HEIGHT; ++i) {
+		memset(canvas[i], ' ',SCREEN_WIDTH);
+		canvas[i][SCREEN_WIDTH + 1] = '\0';
+	}
+}
+
 int main (void) {
 	setlocale(LC_ALL, "en_US.utf8");
 	//print_image(image);
@@ -171,8 +215,15 @@ int main (void) {
 	for (i = 0; i < SCREEN_HEIGHT; ++i) {
 		f1[i][SCREEN_WIDTH/2] = 'X';
 	}
-
-	print_image(f1);
+	for (i = 0; i <= 180; i++) {
+		home();
+		clrscr();
+		line(f1, (double)i);
+		print_image(f1);
+		printf("degree = %d\n", i);
+		//clear_canvas(f1);
+		usleep(50000);
+	}
 
 	for (i = 0; i < SCREEN_HEIGHT; ++i) {
 		free(f1[i]);
