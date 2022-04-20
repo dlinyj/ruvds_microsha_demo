@@ -20,6 +20,9 @@
 #define SCREEN_WIDTH 156
 #define SCREEN_HEIGHT 60
 
+#define M_SCREEN_WIDTH 78
+#define M_SCREEN_HEIGHT 30
+
 char * image[60] = {
 "                                                                                                                                                            ",
 "                                     XXXXXX                                                                                                                 ",
@@ -85,7 +88,7 @@ char * image[60] = {
 };
 
 void print_image(char ** image) {
-		int i, j;
+	int i, j;
 	for (i = 0; i < SCREEN_HEIGHT; i+=2) {
 		for (j =0; j < SCREEN_WIDTH; j+=2) {
 			if ((image[i][j]   == 'X') && (image[i][j+1]   == ' ') && \
@@ -242,7 +245,15 @@ void full_rotate(char ** image, char ** canvas, double r_degree, double gamma_de
 int main (void) {
 	setlocale(LC_ALL, "en_US.utf8");
 	char* canvas[SCREEN_HEIGHT];
+	char * m_canvas1[M_SCREEN_HEIGHT];
+	char * m_canvas2[M_SCREEN_HEIGHT];
 	init_canvas(canvas);
+	init_canvas_m(m_canvas1);
+	init_canvas_m(m_canvas2);
+
+	convert_to_canvas_m(image, m_canvas1);
+	save_to_asmfile(m_canvas1, NULL, 0);
+	return 0;
 	while (1)
 	for (int i = 10; i <= 350; i++) {
 		if ((i > 170) & (i < 190))
@@ -263,6 +274,10 @@ int main (void) {
 
 	for (int i = 0; i < SCREEN_HEIGHT; ++i) {
 		free(canvas[i]);
+	}
+	for (int i = 0; i < M_SCREEN_HEIGHT; ++i) {
+		free(m_canvas1[i]);
+		free(m_canvas2[i]);
 	}
 	return 0;
 }
