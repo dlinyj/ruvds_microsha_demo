@@ -15,7 +15,8 @@ LIBS = -lm
 
 
 
-OBJ = $(TARGET).o    
+OBJ = $(TARGET).o     \
+	microsha.o   
 
 
 %.o : %.c

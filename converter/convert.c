@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <math.h>
 
+#include "microsha.h"
 
 #define ESC "\033"
 #define home() 			printf(ESC "[H") //Move cursor to the indicated row, column (origin at 1,1)
@@ -18,9 +19,6 @@
 
 #define SCREEN_WIDTH 156
 #define SCREEN_HEIGHT 60
-
-#define M_SCREEN_WIDTH 78
-#define M_SCREEN_HEIGHT 30
 
 char * image[60] = {
 "                                                                                                                                                            ",
