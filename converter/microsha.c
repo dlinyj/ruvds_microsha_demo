@@ -95,20 +95,28 @@ void canvas_m_diffs(char ** new_canvas_m, char ** old_canvas_m) {
 	
 	
 }
-
+//здесь явно ОШИБКА!!!
 void save_to_asmfile(char ** new_canvas_m, char ** old_canvas_m, int iter) {
 	if (iter == 0) {
 		fprintf(stderr, "initial_frame:\n");
 		int x, y;
 		for (y = 0; y < M_SCREEN_HEIGHT; ++y) {
 			fprintf(stderr, "  db ");
-			for (x = 0; x < M_SCREEN_WIDTH/2; ++x)
-				fprintf(stderr, "0%2Xh, ", new_canvas_m[y][x]);
+			for (x = 0; x < M_SCREEN_WIDTH/4; ++x)
+				fprintf(stderr, "0%02Xh, ", new_canvas_m[y][x]);
+			fprintf(stderr, "\n");
+			fprintf(stderr, "  db ");
+			for (; x < M_SCREEN_WIDTH/2; ++x)
+				fprintf(stderr, "0%02Xh, ", new_canvas_m[y][x]);
+			fprintf(stderr, "\n");
+			fprintf(stderr, "  db ");
+			for (; x < (M_SCREEN_WIDTH/2 + M_SCREEN_WIDTH/4); ++x)
+				fprintf(stderr, "0%02Xh, ", new_canvas_m[y][x]);
 			fprintf(stderr, "\n");
 			fprintf(stderr, "  db ");
 			for (; x < M_SCREEN_WIDTH -1; ++x)
-				fprintf(stderr, "0%2Xh, ", new_canvas_m[y][x]);
-			fprintf(stderr, "02%Xh", new_canvas_m[y][M_SCREEN_WIDTH]);
+				fprintf(stderr, "0%02Xh, ", new_canvas_m[y][x]);
+			fprintf(stderr, "02%Xh", new_canvas_m[y][M_SCREEN_WIDTH-1]);
 			fprintf(stderr, "\n");
 		}
     fprintf(stderr, "\n");
