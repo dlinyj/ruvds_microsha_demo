@@ -19,6 +19,9 @@
 #define SCREEN_WIDTH 156
 #define SCREEN_HEIGHT 60
 
+#define M_SCREEN_WIDTH 78
+#define M_SCREEN_HEIGHT 30
+
 char * image[60] = {
 "                                                                                                                                                            ",
 "                                     XXXXXX                                                                                                                 ",
@@ -69,7 +72,7 @@ char * image[60] = {
 "       XXXXXXXX                    XXXXXXXXXXXXXXXXXX  XXXXXXX        XXXXXXX            XXXXX   XXXXX        XXXX             XXXXX          XXXXX         ",
 "        XXXXXXX                    XXXXXXXXXXXXXXXX    XXXXXXX        XXXXXXX             XXXX   XXXX         XXXX             XXXXX           XXXXX        ",
 "        XXXXXXXX                   XXXXXX XXXXXXXX     XXXXXXX        XXXXXXX             XXXX   XXXX         XXXX             XXXX             XXXXX       ",
-"         XXXXXXXX                  XXXXXX XXXXXXXX     XXXXXXX        XXXXXXX             XXXXX XXXXX         XXXX            XXXXX              XXXXX     ",
+"         XXXXXXXX                  XXXXXX XXXXXXXX     XXXXXXX        XXXXXXX             XXXXX XXXXX         XXXX            XXXXX              XXXXX      ",
 "         XXXXXXXXXX                XXXXXX  XXXXXXXX    XXXXXXX        XXXXXX               XXXX XXXX          XXXX            XXXXX               XXXXX     ",
 "          XXXXXXXXXX               XXXXXX   XXXXXXXX   XXXXXXX        XXXXXX               XXXXXXXXX          XXXX            XXXX                 XXXXX    ",
 "           XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX    XXXXXXXX   XXXXXXX      XXXXXXX               XXXXXXXX           XXXX           XXXX                  XXXXX    ",
@@ -186,6 +189,18 @@ void line (char ** canvas, double degree_axix_of_rotation) {
 	} 
 }
 
+void vertical_line (char ** canvas) {
+	for (int i = 0; i < SCREEN_HEIGHT; ++i) {
+		canvas[i][SCREEN_WIDTH/2] = 'X';
+	}
+}
+
+void horisontal_line (char ** canvas) {
+	for (int i = 0; i < SCREEN_WIDTH; ++i) {
+		canvas[SCREEN_HEIGHT/2][i] = 'X';
+	}
+}
+
 void clear_canvas(char ** canvas) {
 	for (int i = 0; i < SCREEN_HEIGHT; ++i) {
 		memset(canvas[i], ' ',SCREEN_WIDTH);
@@ -193,41 +208,63 @@ void clear_canvas(char ** canvas) {
 	}
 }
 
+void init_canvas(char ** canvas) {
+	for (int i = 0; i < SCREEN_HEIGHT; ++i) {
+		canvas[i] = malloc(SCREEN_WIDTH + 1);
+		memset(canvas[i], ' ',SCREEN_WIDTH);
+		canvas[i][SCREEN_WIDTH + 1] = '\0';
+	}
+}
+
+void rotate(char ** image, char ** canvas, double r_degree) {
+	for (int y = 0; y < SCREEN_HEIGHT; y++) {
+		for (int x = 0; x < SCREEN_WIDTH; x++) {
+			int xnew = (int)((X1 - x) * cos ((180 -r_degree) * M_PI / 180.0) + X1 + 0.5);
+			if (canvas[y][xnew] != 'X') {
+				canvas[y][xnew] = image[y][x];
+			}
+		}
+	}
+}
+
+void full_rotate(char ** image, char ** canvas, double r_degree, double gamma_degree) {
+	for (int y = 0; y < SCREEN_HEIGHT; y++) {
+		for (int x = 0; x < SCREEN_WIDTH; x++) {
+			int xnew = (int)((((X1 - x) * cos ((180 - r_degree) * M_PI / 180.0) + X1) * cos(180 - gamma_degree) * M_PI / 180.0) + 0.5);
+			int ynew = (int)((((Y1 - y) * cos ((180 - r_degree) * M_PI / 180.0) + Y1) *  sin(180 - gamma_degree) * M_PI / 180.0) + 0.5);
+			if ((xnew >= 0 ) && (xnew <= SCREEN_WIDTH) && (ynew >= 0) && (ynew <= SCREEN_WIDTH)) {
+				if (canvas[ynew][xnew] != 'X') {
+					canvas[ynew][xnew] = image[y][x];
+				}
+			}
+		}
+	}
+}
+
 int main (void) {
 	setlocale(LC_ALL, "en_US.utf8");
-	//print_image(image);
-	char* f1[SCREEN_HEIGHT];
-	//char* f2[SCREEN_HEIGHT];
-	int i;
-
-	for (i = 0; i < SCREEN_HEIGHT; ++i) {
-		f1[i] = malloc(SCREEN_WIDTH + 1);
-		memset(f1[i], ' ',SCREEN_WIDTH);
-		f1[i][SCREEN_WIDTH + 1] = '\0';
-		//f2[i] = malloc(SCREEN_WIDTH + 1);
-	}
-
-	//Горизонтальная линия
-	for (i = 0; i < SCREEN_WIDTH; ++i) {
-		f1[SCREEN_HEIGHT/2][i] = 'X';
-	}
-	//Вертикальная линия
-	for (i = 0; i < SCREEN_HEIGHT; ++i) {
-		f1[i][SCREEN_WIDTH/2] = 'X';
-	}
-	for (i = 0; i <= 180; i++) {
+	char* canvas[SCREEN_HEIGHT];
+	init_canvas(canvas);
+	while (1)
+	for (int i = 10; i <= 350; i++) {
+		if ((i > 170) & (i < 190))
+			continue;
 		home();
 		clrscr();
+/*
 		line(f1, (double)i);
 		print_image(f1);
+*/
+		rotate(image, canvas, (double)i);
+		//full_rotate(image, canvas, (double)i, 45.0);
+		print_image(canvas);
 		printf("degree = %d\n", i);
-		//clear_canvas(f1);
+		clear_canvas(canvas);
 		usleep(50000);
 	}
 
-	for (i = 0; i < SCREEN_HEIGHT; ++i) {
-		free(f1[i]);
-//		free(f2[i]);
+	for (int i = 0; i < SCREEN_HEIGHT; ++i) {
+		free(canvas[i]);
 	}
 	return 0;
 }
