@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdlib.h>
-//#include <assert.h>
+#include <assert.h>
 #include "block_define.h"
 
 #define F_SCREEN_WIDTH 156
@@ -10,6 +10,8 @@
 
 #define M_SCREEN_WIDTH 78
 #define M_SCREEN_HEIGHT 30
+
+#define MAX_CHANGE 255 //максимально допустимое количество изменений во фреймах
 
 void convert_to_canvas_m(char **image, char ** m_canvas) {
 	int i, j;
@@ -91,34 +93,40 @@ void init_canvas_m(char ** m_canvas) {
 	}
 }
 
-void canvas_m_diffs(char ** new_canvas_m, char ** old_canvas_m) {
-	
-	
-}
-//здесь явно ОШИБКА!!!
 void save_to_asmfile(char ** new_canvas_m, char ** old_canvas_m, int iter) {
+	int x, y;
 	if (iter == 0) {
 		fprintf(stderr, "initial_frame:\n");
-		int x, y;
 		for (y = 0; y < M_SCREEN_HEIGHT; ++y) {
 			fprintf(stderr, "  db ");
-			for (x = 0; x < M_SCREEN_WIDTH/4; ++x)
+			for (x = 0; x < M_SCREEN_WIDTH-1; ++x)
 				fprintf(stderr, "0%02Xh, ", new_canvas_m[y][x]);
-			fprintf(stderr, "\n");
-			fprintf(stderr, "  db ");
-			for (; x < M_SCREEN_WIDTH/2; ++x)
-				fprintf(stderr, "0%02Xh, ", new_canvas_m[y][x]);
-			fprintf(stderr, "\n");
-			fprintf(stderr, "  db ");
-			for (; x < (M_SCREEN_WIDTH/2 + M_SCREEN_WIDTH/4); ++x)
-				fprintf(stderr, "0%02Xh, ", new_canvas_m[y][x]);
-			fprintf(stderr, "\n");
-			fprintf(stderr, "  db ");
-			for (; x < M_SCREEN_WIDTH -1; ++x)
-				fprintf(stderr, "0%02Xh, ", new_canvas_m[y][x]);
-			fprintf(stderr, "02%Xh", new_canvas_m[y][M_SCREEN_WIDTH-1]);
-			fprintf(stderr, "\n");
+			fprintf(stderr, "0%02Xh\n", new_canvas_m[y][M_SCREEN_WIDTH-1]);
 		}
-    fprintf(stderr, "\n");
+		fprintf(stderr, "\n");
+	} else {
+		int offsets[MAX_CHANGE];
+		char change_symbol[MAX_CHANGE];
+		int offset_n = 0;
+		for (y = 0; y < M_SCREEN_HEIGHT; y++) {
+			for (x = 0; x < M_SCREEN_WIDTH; x++) {
+				if (new_canvas_m[y][x] != old_canvas_m[y][x]) {
+					int offset = y * M_SCREEN_WIDTH + x;
+					assert(offset_n < sizeof(offsets) / sizeof(*offsets)); //Даёт ошибку
+					change_symbol[offset_n] = new_canvas_m[y][x];
+					offsets[offset_n++] = offset;
+				}
+			}
+		}
+		if (offset_n >= MAX_CHANGE) {
+			printf("iter = %d diffs = %d\n", iter, offset_n);
+			assert(0);
+		}
+		fprintf(stderr, "frame_%03d: db %d\n", iter, offset_n);
+		for (int i = 0; i < offset_n; i++) {
+			fprintf(stderr, "  dw %xh\n", offsets[i] + 0x76d0);
+			fprintf(stderr, "  db 0%02xh\n", change_symbol[i]);
+		}
+		fprintf(stderr, "\n");
 	}
 }

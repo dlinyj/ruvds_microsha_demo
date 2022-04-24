@@ -89,6 +89,8 @@ char * image[60] = {
 
 void print_image(char ** image) {
 	int i, j;
+	home();
+	clrscr();
 	for (i = 0; i < SCREEN_HEIGHT; i+=2) {
 		for (j =0; j < SCREEN_WIDTH; j+=2) {
 			if ((image[i][j]   == 'X') && (image[i][j+1]   == ' ') && \
@@ -244,32 +246,42 @@ void full_rotate(char ** image, char ** canvas, double r_degree, double gamma_de
 
 int main (void) {
 	setlocale(LC_ALL, "en_US.utf8");
+
 	char* canvas[SCREEN_HEIGHT];
 	char * m_canvas1[M_SCREEN_HEIGHT];
 	char * m_canvas2[M_SCREEN_HEIGHT];
+
+	char ** new_canvas_m;
+	char ** old_canvas_m;
+	char ** tmp_m;
+
 	init_canvas(canvas);
 	init_canvas_m(m_canvas1);
 	init_canvas_m(m_canvas2);
 
 	convert_to_canvas_m(image, m_canvas1);
-	save_to_asmfile(m_canvas1, NULL, 0);
-	return 0;
-	while (1)
+	save_to_asmfile(m_canvas1, NULL, 0); //save first frame
+
+	old_canvas_m = m_canvas1;
+	new_canvas_m = m_canvas2;
 	for (int i = 10; i <= 350; i++) {
 		if ((i > 170) & (i < 190))
 			continue;
-		home();
-		clrscr();
 /*
 		line(f1, (double)i);
-		print_image(f1);
 */
 		rotate(image, canvas, (double)i);
-		//full_rotate(image, canvas, (double)i, 45.0);
-		print_image(canvas);
+
+		//print_image(canvas);
 		printf("degree = %d\n", i);
+
+		convert_to_canvas_m(canvas, new_canvas_m);
+		save_to_asmfile(new_canvas_m, old_canvas_m, i);
+		tmp_m = old_canvas_m;
+		old_canvas_m = new_canvas_m;
+		new_canvas_m = tmp_m;
 		clear_canvas(canvas);
-		usleep(50000);
+		//usleep(50000);
 	}
 
 	for (int i = 0; i < SCREEN_HEIGHT; ++i) {
