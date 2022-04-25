@@ -255,6 +255,7 @@ int main (void) {
 	char ** old_canvas_m;
 	char ** tmp_m;
 
+	int frames = 1;
 	init_canvas(canvas);
 	init_canvas_m(m_canvas1);
 	init_canvas_m(m_canvas2);
@@ -264,7 +265,9 @@ int main (void) {
 
 	old_canvas_m = m_canvas1;
 	new_canvas_m = m_canvas2;
-	for (int i = 10; i <= 350; i++) {
+
+	//for (int i = 10; i <= 350; i++) {
+	for (int i = 10; i <= 90; i++) {
 		if ((i > 170) & (i < 190))
 			continue;
 /*
@@ -272,17 +275,20 @@ int main (void) {
 */
 		rotate(image, canvas, (double)i);
 
-		//print_image(canvas);
-		printf("degree = %d\n", i);
+//		print_image(canvas);
+//		printf("degree = %d\n", i);
 
 		convert_to_canvas_m(canvas, new_canvas_m);
-		save_to_asmfile(new_canvas_m, old_canvas_m, i);
+		save_to_asmfile(new_canvas_m, old_canvas_m, frames++);
 		tmp_m = old_canvas_m;
 		old_canvas_m = new_canvas_m;
 		new_canvas_m = tmp_m;
 		clear_canvas(canvas);
-		//usleep(50000);
+
+//		usleep(50000);
 	}
+
+	fprintf(stderr, "frame_%03d: db %d\n", frames, 255);
 
 	for (int i = 0; i < SCREEN_HEIGHT; ++i) {
 		free(canvas[i]);
