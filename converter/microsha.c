@@ -11,7 +11,8 @@
 #define M_SCREEN_WIDTH 78
 #define M_SCREEN_HEIGHT 30
 
-#define MAX_CHANGE 255 //максимально допустимое количество изменений во фреймах
+//#define MAX_CHANGE 255 //максимально допустимое количество изменений во фреймах
+#define MAX_CHANGE 1000 //максимально допустимое количество изменений во фреймах
 
 void convert_to_canvas_m(char **image, char ** m_canvas) {
 	int i, j;
@@ -122,7 +123,7 @@ void save_to_asmfile(char ** new_canvas_m, char ** old_canvas_m, int iter) {
 			printf("iter = %d diffs = %d\n", iter, offset_n);
 			assert(0);
 		}
-		fprintf(stderr, "frame_%03d: db %d\n", iter, offset_n);
+		fprintf(stderr, "frame_%03d: dw 0%02xh\n", iter, offset_n);
 		for (int i = 0; i < offset_n; i++) {
 			fprintf(stderr, "  dw %xh\n", offsets[i] + 0x76d0);
 			fprintf(stderr, "  db 0%02xh\n", change_symbol[i]);

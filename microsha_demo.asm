@@ -4,28 +4,30 @@ video_area_end equ video_area + (78*30)
 	org 0h
 
 init_frame_start:
-	lxi b, 8E8h ;размер
+	lxi b, 8E8h;размер
 	lxi d, initial_frame
 	lxi h, video_area
 	call memcpy
+	lxi h, frame_001 ; тут по хорошему надо расчётное значение
 
 next_frame:
-	lxi d, 2000
-frame_delay_loop:
-	dcx d
-	mov a, d
-	ora e
-	jnz frame_delay_loop
-
-	lxi h, frame_001 ; тут по хорошему надо расчётное значение
+	call frame_delay
 	mov a, m
 	inx h
 	cpi 255
 	jz init_frame_start
+	mov c, a
+	cpi 0
+	jz cmp_0_too
+	mov b, m
+	inx h
+	jmp frame_loop
+cmp_0_too:
+	mov a, m
+	inx h
 	cpi 0
 	jz next_frame
-
-	mov c, a
+	mov b, a
 frame_loop:
 	mov e, m
 	inx h
@@ -33,12 +35,20 @@ frame_loop:
 	inx h
 	mov a, m
 	inx h
-	ldax d
 	stax d
-	dcr c
+	dcx b
 	jnz frame_loop
 	jmp next_frame
 
+frame_delay:
+	lxi d, 2000
+frame_delay_loop:
+	dcx d
+	mov a, d
+	ora e
+	jnz frame_delay_loop
+	ret
+	
 	; bc: number of bytes to copy
 	; de: source block
 	; hl: target block

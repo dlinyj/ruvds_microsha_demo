@@ -23,6 +23,8 @@
 #define M_SCREEN_WIDTH 78
 #define M_SCREEN_HEIGHT 30
 
+#define SHOW
+
 char * image[60] = {
 "                                                                                                                                                            ",
 "                                     XXXXXX                                                                                                                 ",
@@ -267,28 +269,28 @@ int main (void) {
 	new_canvas_m = m_canvas2;
 
 	//for (int i = 10; i <= 350; i++) {
-	for (int i = 10; i <= 90; i++) {
+	for (int i = 30; i <= 360; i+=30) {
+/*
 		if ((i > 170) & (i < 190))
 			continue;
 /*
 		line(f1, (double)i);
 */
 		rotate(image, canvas, (double)i);
-
-//		print_image(canvas);
-//		printf("degree = %d\n", i);
-
+#ifdef  SHOW
+		print_image(canvas);
+		printf("degree = %d\n", i);
+		usleep(200000);
+#endif
 		convert_to_canvas_m(canvas, new_canvas_m);
 		save_to_asmfile(new_canvas_m, old_canvas_m, frames++);
 		tmp_m = old_canvas_m;
 		old_canvas_m = new_canvas_m;
 		new_canvas_m = tmp_m;
 		clear_canvas(canvas);
-
-//		usleep(50000);
 	}
 
-	fprintf(stderr, "frame_%03d: db %d\n", frames, 255);
+	fprintf(stderr, "frame_%03d: dw 0%02xh\n", frames, 0xFFFF);
 
 	for (int i = 0; i < SCREEN_HEIGHT; ++i) {
 		free(canvas[i]);
