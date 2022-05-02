@@ -4,30 +4,22 @@ video_area_end equ video_area + (78*30)
 	org 0h
 
 init_frame_start:
-	lxi b, 8E8h;размер
+	lxi b, (78*30);размер
 	lxi d, initial_frame
 	lxi h, video_area
 	call memcpy
-	lxi h, frame_001 ; тут по хорошему надо расчётное значение
-
+	lxi h, frame_001 ;7C52
 next_frame:
 	call frame_delay
 	mov a, m
 	inx h
-	cpi 255
-	jz init_frame_start
 	mov c, a
-	cpi 0
-	jz cmp_0_too
 	mov b, m
 	inx h
-	jmp frame_loop
-cmp_0_too:
-	mov a, m
-	inx h
-	cpi 0
+	ora b ; если всё по нулям, значит следующий фрейм
 	jz next_frame
-	mov b, a
+	cpi 0ffh
+	jz init_frame_start; подошли к концу
 frame_loop:
 	mov e, m
 	inx h
@@ -37,11 +29,15 @@ frame_loop:
 	inx h
 	stax d
 	dcx b
+	mov a, c
+	ora b
 	jnz frame_loop
 	jmp next_frame
 
 frame_delay:
-	lxi d, 2000
+	;lxi d, 2000
+	;lxi d, 6000;10
+	lxi d, 12000;30
 frame_delay_loop:
 	dcx d
 	mov a, d

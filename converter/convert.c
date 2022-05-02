@@ -259,8 +259,10 @@ int main (void) {
 
 	int frames = 1;
 	init_canvas(canvas);
+	
 	init_canvas_m(m_canvas1);
 	init_canvas_m(m_canvas2);
+	
 
 	convert_to_canvas_m(image, m_canvas1);
 	save_to_asmfile(m_canvas1, NULL, 0); //save first frame
@@ -268,14 +270,10 @@ int main (void) {
 	old_canvas_m = m_canvas1;
 	new_canvas_m = m_canvas2;
 
-	//for (int i = 10; i <= 350; i++) {
-	for (int i = 30; i <= 360; i+=30) {
-/*
-		if ((i > 170) & (i < 190))
-			continue;
-/*
-		line(f1, (double)i);
-*/
+	//for (int i = 20; i <= 340; i+=20) { //годное время
+	for (int i = 30; i <= 330; i+=30) {
+//		line(f1, (double)i);
+
 		rotate(image, canvas, (double)i);
 #ifdef  SHOW
 		print_image(canvas);
@@ -291,7 +289,7 @@ int main (void) {
 	}
 
 	fprintf(stderr, "frame_%03d: dw 0%02xh\n", frames, 0xFFFF);
-
+	printf("All frames = %d\n", frames);
 	for (int i = 0; i < SCREEN_HEIGHT; ++i) {
 		free(canvas[i]);
 	}
