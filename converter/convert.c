@@ -270,10 +270,17 @@ int main (void) {
 	old_canvas_m = m_canvas1;
 	new_canvas_m = m_canvas2;
 
-	//for (int i = 20; i <= 340; i+=20) { //годное время
-	for (int i = 30; i <= 330; i+=30) {
-//		line(f1, (double)i);
 
+	//for (int i = 20; i <= 340; i+=20) { //годное время
+	//for (int i = 30; i <= 330; i+=30) {
+	for(int i = 5; i <= 330; i+=5) {
+		if ((i!=80) && (i!=110) && (i!=260) && (i!=280)) {
+		//if ((i!=75) && (i!=115) && (i!=255) && (i!=285)) {
+			if (i % 30) {
+				continue;
+			}
+		}
+//		line(f1, (double)i);
 		rotate(image, canvas, (double)i);
 #ifdef  SHOW
 		print_image(canvas);
@@ -287,6 +294,8 @@ int main (void) {
 		new_canvas_m = tmp_m;
 		clear_canvas(canvas);
 	}
+
+
 
 	fprintf(stderr, "frame_%03d: dw 0%02xh\n", frames, 0xFFFF);
 	printf("All frames = %d\n", frames);
