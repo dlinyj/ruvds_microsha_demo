@@ -2,11 +2,35 @@ video_area equ 76d0h	;ОЗУ. Видеопамять
 video_area_end equ video_area + (78*30)
 video_area_size equ (78*30)
 
+puts    equ 0F818h
+
 M_SCREEN_WIDTH equ 78
 M_SCREEN_HEIGHT equ 30
 
 	org 0
-	;lxi h, video_area
+	lxi h, msg
+	call puts
+	call frame_delay
+	call frame_delay
+	call frame_delay
+	call frame_delay
+	call frame_delay
+	call frame_delay
+
+	call frame_delay
+	call frame_delay
+	call frame_delay
+	call frame_delay
+	call frame_delay
+	call frame_delay
+
+	lxi h, video_area
+	mvi d, 0x17
+	lxi b, video_area_size
+	call memset
+	call frame_delay
+	call frame_delay
+	call frame_delay
 portjera:
 	;расчёт сколько символов нам осталось перелопатить
 	lhld  symbol_to_output; загружаем
@@ -56,17 +80,6 @@ portjera:
 	call memset
 	call frame_delay
 	jmp portjera
-
-	lhld clear_size; Загрузить в HL содержимое ячейки с адресом a16 
-	mov b, h
-	mov c, l
-	
-	shld clear_size;  Записать HL по адресу a16 
-	
-	lxi h, video_area + (4 * 78)
-	mvi d, ' '
-	lxi b, video_area_size - (4 * 78)
-	call memset
 
 while_true:
 	jmp while_true
