@@ -70,293 +70,293 @@ frame_delay_loop:
 
 melody:
     dw 949
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 10172
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 7596
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 798
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 949
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 10172
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 7596
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 798
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 949
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 798
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 949
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 798
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 949
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 798
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 949
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 1267
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 1065
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 13615
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 10172
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 13615
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 20344
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 13615
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 10172
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 13615
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 949
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 10172
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 7596
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 798
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 949
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 10172
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 7596
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 798
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 949
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 798
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 949
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 798
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 949
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 798
-    db 9
+    db 4
     dw 845
-    db 9
+    db 4
     dw 949
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 1267
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 1065
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 13615
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 10172
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 13615
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 20344
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 13615
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 10172
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 13615
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 1196
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 15258
-    db 9
+    db 4
     dw 798
-    db 9
+    db 4
     dw 11419
-    db 9
+    db 4
     dw 711
-    db 9
-    dw 798
-    db 9
-    dw 845
-    db 9
-    dw 798
-    db 9
-    dw 0
-    db 9
-    dw 15258
-    db 9
-    dw 0
-    db 9
-    dw 11419
-    db 9
-    dw 711
-    db 9
-    dw 798
-    db 9
-    dw 845
-    db 9
-    dw 798
-    db 9
-    dw 711
-    db 9
-    dw 798
-    db 9
-    dw 845
-    db 9
-    dw 798
-    db 9
-    dw 711
-    db 9
-    dw 798
-    db 9
-    dw 845
-    db 9
-    dw 798
-    db 9
-    dw 711
-    db 9
-    dw 798
-    db 9
-    dw 845
-    db 9
-    dw 798
-    db 9
-    dw 0
-    db 9
-    dw 845
-    db 9
-    dw 0
-    db 9
+    db 4
     dw 798
     db 4
     dw 845
     db 4
+    dw 798
+    db 4
+    dw 0
+    db 4
+    dw 15258
+    db 4
+    dw 0
+    db 4
+    dw 11419
+    db 4
+    dw 711
+    db 4
+    dw 798
+    db 4
+    dw 845
+    db 4
+    dw 798
+    db 4
+    dw 711
+    db 4
+    dw 798
+    db 4
+    dw 845
+    db 4
+    dw 798
+    db 4
+    dw 711
+    db 4
+    dw 798
+    db 4
+    dw 845
+    db 4
+    dw 798
+    db 4
+    dw 711
+    db 4
+    dw 798
+    db 4
+    dw 845
+    db 4
+    dw 798
+    db 4
+    dw 0
+    db 4
+    dw 845
+    db 4
+    dw 0
+    db 4
+    dw 798
+    db 2
+    dw 845
+    db 2
     dw 949
-    db 4
+    db 2
     dw 0
-    db 4
+    db 2
     dw 12826
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 9619
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 12826
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 1065
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 11419
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 8550
-    db 9
+    db 4
     dw 0
-    db 9
+    db 4
     dw 11419
-    db 9
+    db 4
 end_melody:
