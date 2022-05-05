@@ -17,7 +17,7 @@ start_music:
     lxi h, timer2_reg
     lxi b, melody
 load:
-    ldax b
+    ldax b;младший байт
     mov e, a
     inx b
     ldax b
@@ -26,8 +26,10 @@ load:
     call disable_sound;если нуль
     jmp delay_loop
 enabled:
-    mov m, e
+;    mov m, e
+;    mov m, a
     mov m, a
+    mov m, e
     call  enable_sound;если не нуль
     inx b
     ldax b
