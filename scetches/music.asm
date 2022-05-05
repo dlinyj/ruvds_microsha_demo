@@ -24,13 +24,14 @@ load:
     cmp e
     jnz enabled
     call disable_sound;если нуль
-    jmp delay_loop
+    jmp pre_delay
 enabled:
 ;    mov m, e
 ;    mov m, a
     mov m, a
     mov m, e
     call  enable_sound;если не нуль
+pre_delay:
     inx b
     ldax b
 delay_loop:
