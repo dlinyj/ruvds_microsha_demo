@@ -52,9 +52,11 @@ delay_loop:
 disable_sound:
     mvi a, 0
     sta portc_reg
+    ret
 enable_sound:
     mvi a, 06h
     sta portc_reg
+    ret
 counter_delay:
     db 0
 
