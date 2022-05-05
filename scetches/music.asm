@@ -1,36 +1,26 @@
-prompt  equ 0F86Ch
-puts    equ 0F818h
-M1:     EQU 0F89Dh
+m55regcfg  equ 0c003h
 portc_reg  equ 0c002h
+tim_regcfg equ 0d803h
 timer2_reg equ 0d802h
+
     org 0
-
-    lxi h, 0c003h; регистр управляющего слова для клавиатуры
-    mvi m, 80h ;все на вывод
-
-    lxi h, 0d803h; запись команды для таймера
-    mvi m, 0b6h ;10110110 (0 - двоичный, *11 - режим 3, 11 мл, ст байт, 10 - канал 2)
-    ;dcx h ;загрузка счётчика 2 d802h
+    call init_sound
 start_music:
-    ;mvi m, 10h
-    ;mvi m, 20h
     lxi h, timer2_reg
     lxi b, melody
 load:
-    ldax b;младший байт
+    ldax b ;младший байт
     mov e, a
     inx b
     ldax b
     cmp e
     jnz enabled
-    call disable_sound;если нуль
+    call disable_sound;если нуль тишина
     jmp pre_delay
 enabled:
-;    mov m, e
-;    mov m, a
-    mov m, a
     mov m, e
-    call  enable_sound;если не нуль
+    mov m, a
+    call enable_sound;если не нуль
 pre_delay:
     inx b
     ldax b
@@ -48,6 +38,13 @@ delay_loop:
     cmp c
     jnz load
     jmp start_music
+
+init_sound:
+    lxi h, m55regcfg; регистр управляющего слова для клавиатуры
+    mvi m, 80h ;все на вывод
+    lxi h, tim_regcfg; запись команды для таймера
+    mvi m, 0b6h ;10110110 (0 - двоичный, *11 - режим 3, 11 мл, ст байт, 10 - канал 2)
+    ret
 
 disable_sound:
     mvi a, 0
