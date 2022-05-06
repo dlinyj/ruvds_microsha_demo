@@ -19,6 +19,8 @@ note = {'wait':0, 'freq':0, 'dur': 0 }
 delay_const = 0.05
 last_note = None
 delay_s = 0
+fp_melody = open('../scetches/melody.asm', 'w')
+fp_melody.write('melody:\n')
 for x in mid.tracks[0]:
     if x.type == 'note_on':
         if x.velocity != 0:
@@ -33,13 +35,15 @@ for x in mid.tracks[0]:
                 #time.sleep(0.01)
                 delay_s = 1
             if delay_s:
-                print(f"    dw 0\n\r    db {delay_s}")
+                fp_melody.write(f"    dw 0\n    db {delay_s}\n")
                 delay_s = 0
             note_length = int(note['dur'] * note_time_scale / (1000 * delay_const))
             #print(f" dur = {note['dur']}")
             #cmd = f"play -n synth {note_length} sine {note['freq']} vol 0.5"
             #os.system(cmd)
             coef = int(1770000 / note['freq'])
-            print(f"    dw {coef}\n\r    db {note_length}")
+            fp_melody.write(f"    dw {coef}\n    db {note_length}\n")
             last_note = note
 
+fp_melody.write('end_melody:')
+fp_melody.close()
