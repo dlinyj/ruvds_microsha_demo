@@ -17,12 +17,7 @@ play_music:
     sta counter_delay
     ret
 next_note:
-    lxi b,music_pos 
-
-start_music:
-    lxi h, timer2_reg
-    lxi b, melody
-load:
+    lxi b,music_pos
     ldax b ;младший байт
     mov e, a
     inx b
@@ -32,26 +27,27 @@ load:
     call disable_sound;если нуль тишина
     jmp pre_delay
 enabled:
+    lxi h, timer2_reg
     mov m, e
     mov m, a
     call enable_sound;если не нуль
 pre_delay:
     inx b
     ldax b
-delay_loop:
     sta counter_delay
-    call frame_delay
-    lda counter_delay
-    dcr a
-    jnz delay_loop
     inx b
     mvi a, hi(end_melody)
     cmp b
-    jnz load
+    jnz not_end_melody
     mvi a, lo(end_melody)
     cmp c
-    jnz load
-    jmp start_music
+    jnz not_end_melody
+    lxi b, melody
+not_end_melody:
+    mov h, b
+    mov l, c
+    shld music_pos
+    ret
 
 init_sound:
     lxi h, m55regcfg; регистр управляющего слова для клавиатуры
