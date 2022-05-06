@@ -32,14 +32,14 @@ for x in mid.tracks[0]:
                 #time.sleep(0.01)
                 delay_s = 1
             if delay_s:
-                fp_melody.write(f"    dw 0\n    db {delay_s}\n")
+                fp_melody.write(f"    dw 0x0000\n    db 0x{delay_s:02x}\n")
                 delay_s = 0
             note_length = int(note['dur'] * note_time_scale / (1000 * delay_const))
             #print(f" dur = {note['dur']}")
             #cmd = f"play -n synth {note_length} sine {note['freq']} vol 0.5"
             #os.system(cmd)
             coef = int(1770000 / note['freq'])
-            fp_melody.write(f"    dw {coef}\n    db {note_length}\n")
+            fp_melody.write(f"    dw 0x{coef:04x}\n    db 0x{note_length:02x}\n")
             last_note = note
 
 fp_melody.write('end_melody:')
