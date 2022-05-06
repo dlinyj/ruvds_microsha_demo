@@ -71,6 +71,7 @@ music_pos:
     dw melody
 
 frame_delay:
+    call play_music
 	lxi d, 2000
 	;lxi d, 6000;10
 	;lxi d, 12000;30
