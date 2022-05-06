@@ -1,7 +1,4 @@
 from mido import MidiFile
-from pathlib import Path
-import time
-import os
 
 def noteToFreq(note):
     a = 440 #frequency of A (coomon value is 440Hz)
@@ -16,7 +13,7 @@ pause_time_scale = 1
 note = {'wait':0, 'freq':0, 'dur': 0 }
 #; 12000 = > delay = 0,149 s
 #delay_const = 0.025
-delay_const = 0.05
+delay_const = 0.03
 last_note = None
 delay_s = 0
 fp_melody = open('../scetches/melody.asm', 'w')
