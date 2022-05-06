@@ -17,7 +17,9 @@ play_music:
     sta counter_delay
     ret
 next_note:
-    lxi b,music_pos
+    lhld music_pos
+    mov b, h
+    mov c, l
     ldax b ;младший байт
     mov e, a
     inx b
