@@ -10,7 +10,9 @@ init_frame_start:
 	call memcpy
 	lxi h, frame_001 ;7C52
 next_frame:
+	push h
 	call long_frame_delay
+	pop h
 	mov a, m
 	inx h
 	mov c, a
