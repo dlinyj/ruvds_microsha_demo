@@ -3,11 +3,11 @@ portc_reg  equ 0c002h
 tim_regcfg equ 0d803h
 timer2_reg equ 0d802h
 
-    org 0
-    call init_sound
-while_true:
-    call frame_delay
-    jmp while_true
+;    org 0
+;    call init_sound
+;while_true:
+;    call frame_delay
+;    jmp while_true
 
 play_music:
     lda counter_delay; загружем счётчик задержки
