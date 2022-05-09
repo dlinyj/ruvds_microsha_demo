@@ -10,6 +10,7 @@ puts    equ 0F818h
 ;1000h
 	;call config_video
 	;call P_VG75
+	call monitor_config
 	lxi b, 8E8h ;размер
 	lxi d, msg
 	lxi h, 76D0h
@@ -35,6 +36,35 @@ loop:
 	ora     c           ;A = A | C      (set zero)
 	jnz     loop        ;Jump to 'loop:' if the zero-flag is not set.
 	ret                 ;Return
+
+monitor_config:
+	lxi h, 0d001h
+	mvi m, 00h
+	dcx h
+	mvi m, 4dh
+	mvi m, 1dh
+	mvi m, 99h;mvi m, 77h;
+	;mvi m, 93h; мерцающее подчёркивание
+	mvi m, 0b3h; немерцающее подчёркивание
+	;mvi m, 0a3; немерцающий негативный видеоблок
+;ПДП
+	mvi a, 80h
+	sta 0f808h; запись управляющего слова в регистр управления
+	lxi h, 0f804h
+	mvi m, 0d0h; мл. адрес откуда
+	mvi m, 76h; ст. адрес откуда
+	inx h; 0f805h
+	mvi m, 23h
+	mvi m, 49h ; размер массива 0923h и единица в разряде D14 - направление передачи
+;ПДП end
+	lxi h, 0d001h
+	mvi m, 27h
+	mvi m, 0e0h
+;ПДП
+	mvi a, 0a4h ;автозагрузка, удлинённая запись, канал 2
+	sta 0f808h    
+;ПДП end
+	ret
 
 config_video:
 	lxi h, 0d001h
