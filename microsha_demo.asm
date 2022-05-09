@@ -3,6 +3,7 @@ video_area_end equ video_area + (78*30)
 
 	org 0h
 	call init_sound
+	call monitor_config
 init_frame_start:
 	lxi b, (78*30);размер
 	lxi d, initial_frame
@@ -36,17 +37,18 @@ frame_loop:
 	jnz frame_loop
 	jmp next_frame
 
-o_frame_delay:
-	;lxi d, 2000
-	;lxi d, 6000;10
-	lxi d, 12000;30
-o_frame_delay_loop:
-	dcx d
-	mov a, d
-	ora e
-	jnz o_frame_delay_loop
+monitor_config:
+	lxi h, 0d001h	; регистр признаков
+	mvi m, 00h		; сброс
+	dcx h			; регистр команд
+	mvi m, 4dh		; 0.1001101  77 (77+1 знакомест)
+	mvi m, 1dh		; 00.011101  29 (29+1 строк)
+	mvi m, 08h		; 7 линий без подчёркивания, 7 линий в знакоместе
+	mvi m, 0b3h		; немерцающее подчёркивание**
+	inx h
+	mvi m, 27h
 	ret
-	
+
 long_frame_delay:
 	call frame_delay
 	call frame_delay
@@ -55,8 +57,8 @@ long_frame_delay:
 	call frame_delay
 	call frame_delay
 	ret
-	
-	
+
+
 	; bc: number of bytes to copy
 	; de: source block
 	; hl: target block
