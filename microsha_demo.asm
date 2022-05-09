@@ -60,6 +60,7 @@ video_config:
 splash_screen:
 	lxi h, start_msg
 	call puts
+	call init_sound	;Можно вызвать только после обращения к монитору
 	call long_long_frame_delay
 	lxi h, video_area
 	mvi d, M_FULL_BLOCK
