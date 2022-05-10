@@ -69,7 +69,17 @@ splash_screen:
 	call long_frame_delay
 	call long_frame_delay
 	call long_frame_delay
-
+	;init var
+	;Нужно для многократного запуска, потом можно убрать.
+	lxi h,start_msg
+	shld memcpy_pos
+	lxi h,video_area_size
+	shld symbol_to_output
+	lxi h,0
+	shld clear_size
+	lxi h,video_area_end
+	shld clear_pos
+;TODO: Убрать лишние копирования, в портьере добавить по бокам нулевые элементы
 portjera:
 ;расчёт сколько символов нам осталось перелопатить
 	lhld  symbol_to_output; загружаем
@@ -106,17 +116,17 @@ portjera:
 	sbi hi(M_SCREEN_WIDTH)
 	mov h, a
 	shld clear_pos; схороним всё
-;Выситываем положение фрейма для копирования под портьеру
+;Высчитываем положение фрейма для копирования под портьеру
 	mvi a, lo(frame_001)
 	sub c
 	mov e, a
 	mvi a, hi(frame_001)
 	sbb b
 	mov d, a
+	lxi b, M_SCREEN_WIDTH; чтобы не копировать лишнего
 	call memcpy
 	call long_frame_delay
 	jmp portjera
-
 
 ;Переменные для заставки
 memcpy_pos:

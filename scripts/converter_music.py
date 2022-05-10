@@ -13,7 +13,7 @@ pause_time_scale = 1
 note = {'wait':0, 'freq':0, 'dur': 0 }
 #; 12000 = > delay = 0,149 s
 #delay_const = 0.025
-delay_const = 0.03
+delay_const = 0.05
 last_note = None
 delay_s = 0
 fp_melody = open('../scetches/melody.asm', 'w')
