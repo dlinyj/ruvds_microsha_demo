@@ -222,5 +222,5 @@ long_frame_delay:
 	call frame_delay
 	ret
 
-	include "frames.asm"
-	include "scetches/music_delay.asm"
+	include "include/frames.asm"
+	include "include/music_delay.asm"

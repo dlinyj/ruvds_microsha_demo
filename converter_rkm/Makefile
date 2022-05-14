@@ -1,21 +1,19 @@
 # Makefile
-TARGET = convert
+TARGET = convert_rkm
 
 CC = gcc
 CFLAGS = -Wall
-LIBS = -lm
 
 
-OBJ = $(TARGET).o     \
-	microsha.o   
+OBJ = $(TARGET).o     
 
 all:$(TARGET)
 
 %.o : %.c
 	$(CC) -c $(CFLAGS) $< -o $@ $(LDFLAGS)
 
-$(TARGET): $(OBJ) 
+$(TARGET): $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS) $(LDFLAGS)
 
 clean:
-	rm -f *.o $(TARGET)
+	rm -f *.o $(TARGET) 

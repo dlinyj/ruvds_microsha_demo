@@ -16,7 +16,7 @@ note = {'wait':0, 'freq':0, 'dur': 0 }
 delay_const = 0.05
 last_note = None
 delay_s = 0
-fp_melody = open('../scetches/melody.asm', 'w')
+fp_melody = open('../include/melody.asm', 'w')
 fp_melody.write('melody:\n')
 for x in mid.tracks[0]:
     if x.type == 'note_on':
