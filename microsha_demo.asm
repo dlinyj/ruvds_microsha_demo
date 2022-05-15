@@ -1,17 +1,20 @@
 video_area equ 76d0h	;ОЗУ. Видеопамять
-video_area_end equ video_area + (78*30)
-video_area_size equ (78*30)
-M_FULL_BLOCK equ 0x17
-
-puts    equ 0F818h
-
+;размеры экрана в символах
 M_SCREEN_WIDTH equ 78
 M_SCREEN_HEIGHT equ 30
 
+video_area_end equ video_area + (M_SCREEN_WIDTH * M_SCREEN_HEIGHT)
+video_area_size equ (M_SCREEN_WIDTH * M_SCREEN_HEIGHT)
+
+puts    equ 0F818h; Процедура монитора для печати сообщения
+
+M_TOP_LEFT_POINT_B equ 0x16
+M_FULL_BLOCK equ 0x17
+
 	org 0h
+	call init_var
 	call video_config
 	call splash_screen
-	call init_sound
 init_frame_start:
 	lxi b, (78*30);размер
 	lxi d, initial_frame
@@ -45,7 +48,24 @@ frame_loop:
 	jnz frame_loop
 	jmp next_frame
 
-video_config:
+init_var: ;Нужно для многократного запуска.
+	;Иницициализация переменных музыки
+	lxi h, melody
+	shld music_pos
+	;Стартовая позиция первого сообщения
+	lxi h,start_msg
+
+	;Для анимации подъёма шторы
+	shld memcpy_pos
+	lxi h,video_area_size
+	shld symbol_to_output
+	lxi h,0
+	shld clear_size
+	lxi h,video_area_end
+	shld clear_pos
+	ret
+
+video_config:;Настраиваем "бесшовное" отображение символов
 	lxi h, 0d001h	; регистр признаков
 	mvi m, 00h		; сброс
 	dcx h			; регистр команд
@@ -60,26 +80,19 @@ video_config:
 splash_screen:
 	lxi h, start_msg
 	call puts
-	call init_sound	;Можно вызвать только после обращения к монитору
 	call long_long_frame_delay
 	lxi h, video_area
-	mvi d, M_FULL_BLOCK
-	lxi b, video_area_size
-	call memset
+;	Вариант шторы для "бедных"
+;	mvi d, '*'
+;	mvi d, 0x16
+;	lxi b, video_area_size
+;	call memset
+;	Вариант нормальной шторы
+	call curtain
 	call long_frame_delay
 	call long_frame_delay
 	call long_frame_delay
-	;init var
-	;Нужно для многократного запуска, потом можно убрать.
-	lxi h,start_msg
-	shld memcpy_pos
-	lxi h,video_area_size
-	shld symbol_to_output
-	lxi h,0
-	shld clear_size
-	lxi h,video_area_end
-	shld clear_pos
-;TODO: Убрать лишние копирования, в портьере добавить по бокам нулевые элементы
+
 portjera:
 ;расчёт сколько символов нам осталось перелопатить
 	lhld  symbol_to_output; загружаем
@@ -92,11 +105,6 @@ portjera:
 	sbi hi(M_SCREEN_WIDTH)
 	mov h, a
 	shld symbol_to_output; схороним всё
-	mov b, h
-	mov c, l
-	mvi d, M_FULL_BLOCK
-	lxi h, video_area
-	call memset; Заливаем краской
 
 	lhld clear_size
 	mov a, l
@@ -137,6 +145,73 @@ clear_size:
 	dw 0
 clear_pos:
 	dw video_area_end
+
+curtain:; Процедура "сплошной" заливки, с отступами, для корректного отображения
+	lxi h,video_area
+	mvi d, ' '
+	mvi b, 0
+	mvi c, M_SCREEN_WIDTH
+	call memset
+	lxi h,video_area + M_SCREEN_WIDTH
+	shld curtain_video_pos
+	mvi e, M_SCREEN_HEIGHT - 2
+pr_loop:
+	;первые семь пробелов в строке
+	mvi d, ' '
+	mvi c, 7
+	call memset
+
+	; заливка 64 символа
+	lhld curtain_video_pos
+	mov a, l
+	adi 7
+	mov l, a
+	mov a, h
+	aci 0
+	mov h, a
+	shld curtain_video_pos
+
+	mvi d, M_TOP_LEFT_POINT_B ; неполный блок с отсутствующим элементом
+	;mvi d, '*' ; либо звёздочка
+	mvi c, 64
+	call memset
+
+	lhld curtain_video_pos
+	mov a, l
+	adi 64
+	mov l, a
+	mov a, h
+	aci 0
+	mov h, a
+	shld curtain_video_pos
+
+	;последние 7 символов в строке
+	lhld curtain_video_pos
+	mvi d, ' '
+	mvi c, 7
+	call memset
+
+	;не достигли ли дна
+	lhld curtain_video_pos
+	mov a, l
+	adi 7
+	mov l, a
+	mov a, h
+	aci 0
+	mov h, a
+	shld curtain_video_pos
+	dcr e
+	jnz pr_loop
+
+	;последняя строка тёмная
+	mvi d, ' '
+	mvi b, 0
+	mvi c, M_SCREEN_WIDTH
+	call memset
+	ret
+
+curtain_video_pos:
+	dw video_area
 
 start_msg:
 	db 1fh, 0dh, 0ah

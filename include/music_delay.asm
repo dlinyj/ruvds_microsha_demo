@@ -51,7 +51,7 @@ not_end_melody:
     shld music_pos
     ret
 
-init_sound:
+init_sound:; Никогда не вызывается, потому что конфликтует с "Монитор". Работает и так
     lxi h, m55regcfg; регистр управляющего слова для клавиатуры
     mvi m, 80h ;все на вывод
     lxi h, tim_regcfg; запись команды для таймера
