@@ -8,8 +8,9 @@ video_area_size equ (M_SCREEN_WIDTH * M_SCREEN_HEIGHT)
 
 puts    equ 0F818h; Процедура монитора для печати сообщения
 
-M_TOP_LEFT_POINT_B equ 0x16
-M_FULL_BLOCK equ 0x17
+M_TOP_LEFT_POINT_B	equ	0x16
+M_FULL_BLOCK		equ	0x17
+M_DIAGONAL_FRTL		equ	0x12
 
 	org 0h
 	call init_var
@@ -171,7 +172,8 @@ pr_loop:
 	mov h, a
 	shld curtain_video_pos
 
-	mvi d, M_TOP_LEFT_POINT_B ; неполный блок с отсутствующим элементом
+	mvi d, M_DIAGONAL_FRTL; диагональ
+	;mvi d, M_TOP_LEFT_POINT_B ; неполный блок с отсутствующим элементом
 	;mvi d, '*' ; либо звёздочка
 	mvi c, 64
 	call memset
@@ -227,8 +229,9 @@ start_msg:
 	db 0dh, 0ah, 0dh, 0ah
 	db "demka specialxno dlq HABR", 0dh, 0ah
 	db "ideq i realizaciq DLINYJ", 0dh, 0ah, 0dh, 0ah
-    db "bolx{aq blagodarnostx MAN OF LETTERS", 0dh, 0ah
-	db 0dh, 0ah, 0dh, 0ah, 0dh, 0ah,0dh, 0ah, 0dh, 0ah, 0dh, 0ah, 0dh, 0ah,0dh, 0ah
+	db 0dh, 0ah, 0dh, 0ah, 0dh, 0ah, 0dh, 0ah
+	db 0dh, 0ah, 0dh, 0ah, 0dh, 0ah,0dh, 0ah, 0dh
+	db "bolx{aq blagodarnostx MAN OF LETTERS", 0dh, 0ah
 	db 0
 
 	; bc: number of bytes to copy
