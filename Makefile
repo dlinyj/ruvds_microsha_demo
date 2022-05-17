@@ -2,7 +2,7 @@ all: microsha_demo.rom.RKM
 
 microsha_demo.rom.RKM: include/melody.asm include/frames.asm converter_rkm/convert_rkm
 	zasm --asm8080 -l0 microsha_demo.asm
-	../converter_rkm/convert_rkm microsha_demo.rom
+	converter_rkm/convert_rkm microsha_demo.rom
 
 include/frames.asm: converter/logo.h
 	make -C converter
