@@ -2,6 +2,8 @@ m55regcfg  equ 0c003h
 portc_reg  equ 0c002h
 tim_regcfg equ 0d803h
 timer2_reg equ 0d802h
+read_key   equ 0f812h
+getchar    equ 0f803h
 
 ;    org 0
 ;    call init_sound
@@ -73,7 +75,21 @@ music_pos:
     dw melody
 
 frame_delay:
-    call play_music
+	call read_key
+	ora a
+	jz test_mus; клавиша не нажата
+	call getchar
+	lda music_run
+	xri 0xff
+	sta music_run
+test_mus:
+	lda music_run
+	ora a
+	jz playng
+	jmp delay_code
+playng:
+	call play_music
+delay_code:
 	lxi d, 2000
 	;lxi d, 6000;10
 	;lxi d, 12000;30
@@ -83,6 +99,9 @@ frame_delay_loop:
 	ora e
 	jnz frame_delay_loop
 	ret
+
+music_run:
+	db 0x00
 
 	include "melody.asm"
 
