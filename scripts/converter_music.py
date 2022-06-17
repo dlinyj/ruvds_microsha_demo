@@ -4,11 +4,11 @@ def noteToFreq(note):
     a = 440 #frequency of A (coomon value is 440Hz)
     return (a / 32) * (2 ** ((note - 9) / 12))
 
-mid = MidiFile('ppk.mid', clip=True)
+mid = MidiFile('frog.mid', clip=True)
 print('number of tracks', len(mid.tracks))
 
-note_time_scale = 1
-pause_time_scale = 1
+note_time_scale = 3
+pause_time_scale = 3
 
 note = {'wait':0, 'freq':0, 'dur': 0 }
 #; 12000 = > delay = 0,149 s
@@ -18,12 +18,15 @@ last_note = None
 delay_s = 0
 fp_melody = open('../include/melody.asm', 'w')
 fp_melody.write('melody:\n')
-for x in mid.tracks[0]:
+for x in mid.tracks[1]:
     if x.type == 'note_on':
-        if x.velocity != 0:
+        #if x.velocity != 0:
+        if True:
             note['wait'] = x.time
             note['freq'] = int(noteToFreq(x.note))
-        if x.velocity == 0:
+#        if x.velocity == 0:
+    if x.type == 'note_off':
+        if True:
             note['dur'] = x.time
             if note['wait']>4:
                 #time.sleep(note['wait'] * pause_time_scale / 1000)
