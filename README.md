@@ -1,4 +1,4 @@
-# Демка специально для [habr](https://habr.com/) и [RuVDS](https://ruvds.com/ru-rub)
+# Демка доработана для [музея Яндекса](https://yandex.ru/museum/)
 
 ![alt text](img/0001.png "Логотип")
 
@@ -6,5 +6,5 @@
 
 ![alt text](img/0002.png "Портьера")
 
-![alt text](img/0003.png "RuVDS")
+![alt text](img/0003.png "Яндекс Музей")
 

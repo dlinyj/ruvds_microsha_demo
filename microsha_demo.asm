@@ -227,7 +227,7 @@ start_msg:
 	db 17h, 17h, 17h, 17h, 17h, 17h, 17h, 17h, 03h, ' ', ' ', 17h, 17h, 17h, 17h, 17h, 14h, 14h, 17h, 17h, ' ', 17h, 03h, ' ', ' ', ' ', ' ', 03h, 17h, ' ', ' ', ' ', 17h, 03h, ' ', ' ', ' ', 03h, 17h, 17h, 17h, 17h, 17h, 03h, ' ', ' ', 17h, 14h, ' ', 14h, 17h, 17h, 17h, ' ', 0dh, 0ah
 	db ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 03h, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 03h, 03h, 03h, 03h, 03h, 03h, ' ', ' ', ' ', 0dh, 0ah
 	db 0dh, 0ah, 0dh, 0ah
-	db "demka specialxno dlq qandeks", 0dh, 0ah
+	db "demka specialxno dlq qndeks", 0dh, 0ah
 	db "ideq i realizaciq DLINYJ", 0dh, 0ah, 0dh, 0ah
 	db 0dh, 0ah, 0dh, 0ah, 0dh, 0ah, 0dh, 0ah
 	db 0dh, 0ah, 0dh, 0ah, 0dh, 0ah,0dh, 0ah, 0dh
