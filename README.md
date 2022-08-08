@@ -1,4 +1,4 @@
-# Демка доработана для [музея Яндекса](https://yandex.ru/museum/)
+# Демка доработана для [участия в конкурсе](https://undefined.chaosconstructions.ru/)
 
 ![alt text](img/0001.png "Логотип")
 
@@ -6,5 +6,5 @@
 
 ![alt text](img/0002.png "Портьера")
 
-![alt text](img/0003.png "Яндекс Музей")
+![alt text](img/0003.png "Undefined")
 

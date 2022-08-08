@@ -4,11 +4,11 @@
 
 all: convert_pgm convert_music
 
-convert_pgm: convert_pgm.py logo_yandex_museum.pgm
-	python3.7 convert_pgm.py logo_yandex_museum.pgm > ../converter/logo.h
+convert_pgm: convert_pgm.py logo_undefined.pgm
+	python3.8 convert_pgm.py logo_undefined.pgm > ../converter/logo.h
 
 convert_music: converter_music.py frog.mid
-	python3.7 converter_music.py
+	python3.8 converter_music.py
 
 clean:
 	rm -f ../converter/logo.h ../include/melody.asm
